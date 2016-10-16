@@ -21,6 +21,9 @@ public class Main {
         printResult(phils);
     }
 
+    /**
+     *  Distribute 'fork' and 'reentrantLock' objects
+     */
     private static void distribiteForks(){
         Fork last = new Fork();
         Fork left = last;
@@ -33,7 +36,6 @@ public class Main {
             left = right;
             leftLock = rightLock;
         }
-
     }
 
     private static void stopThreads() throws Exception {

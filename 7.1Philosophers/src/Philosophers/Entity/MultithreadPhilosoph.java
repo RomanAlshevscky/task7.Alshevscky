@@ -33,6 +33,9 @@ public class MultithreadPhilosoph extends Philosoph implements Runnable {
         System.out.println("{Philosopher " + getPosition() + "] stopped");
     }
 
+    /**
+     * Trying lock shared object iterations
+     */
     private void stillHunger(){
         while (hungry) {
             try {
@@ -57,9 +60,11 @@ public class MultithreadPhilosoph extends Philosoph implements Runnable {
     }
 
     private boolean tryToEat(Lock firstLock, Lock secondLock) throws InterruptedException {
+        //Lock first object, or wait for it
         firstLock.lock();
         try {
             printFirstForkLocked();
+            //try to lock second object
             if (secondLock.tryLock()) {
                 try {
                     printSecondForkLocked();
@@ -68,6 +73,9 @@ public class MultithreadPhilosoph extends Philosoph implements Runnable {
                 } finally {
                     secondLock.unlock();
                 }
+                //If second object was locked by other thread -
+                //waiting random time, before unlock first object to
+                //avoid deadlock
             } else {
                 Thread.sleep(getRandomInt(10));
             }
